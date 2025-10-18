@@ -114,17 +114,18 @@
                 this.lastX = x;
                 this.lastY = y;
                 this.angle = random(0, Math.PI * 2);
-                // MODIFICATION: Made particle speed even slower
-                this.speed = random(1, 5); 
+                // MODIFICATION: Reverted to fast speed for a BIG explosion
+                this.speed = random(1, 15); 
                 this.friction = 0.95;
                 this.gravity = 1;
                 this.hue = random(hue - 20, hue + 20);
-                // MODIFICATION: Increased brightness
-                this.brightness = random(70, 90); 
+                // MODIFICATION: Reverted to vibrant brightness
+                this.brightness = random(50, 80); 
                 this.alpha = 1;
-                // Kept the slow decay rate
+                // Kept the slow decay rate for a "slower" feel
                 this.decay = random(0.008, 0.015); 
-                this.lineWidth = random(1, 3);
+                // MODIFICATION: Increased line width for more brightness
+                this.lineWidth = random(2, 4); 
             }
 
             update() {
@@ -148,7 +149,8 @@
         }
 
         function createParticles(x, y, hue) {
-            let particleCount = 50;
+            // MODIFICATION: Increased particle count for density
+            let particleCount = 60; 
             while (particleCount--) {
                 particles.push(new Particle(x, y, hue));
             }
