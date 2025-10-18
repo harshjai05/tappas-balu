@@ -30,20 +30,16 @@
         const explosionSound = new Audio('boom.mp3');
         explosionSound.preload = 'auto';
 
-        // --- ADDED: Background music ---
-        // !! CHANGE 'song.mp3' to your file name !!
+        // Background music
         const backgroundSong = new Audio('song.mp3');
         backgroundSong.loop = true; 
         backgroundSong.preload = 'auto';
-        // ---------------------------------
-
+        
         let fireworks = [];
         let particles = [];
         let hue = 120;
         
-        // --- ADDED: Flag to start music on first click ---
         let hasUserInteracted = false;
-        // -----------------------------------------------
 
         function setCanvasSize() {
             canvas.width = window.innerWidth;
@@ -112,6 +108,7 @@
             }
         }
 
+        // --- PARTICLE MODIFICATIONS HERE ---
         class Particle {
             constructor(x, y, hue) {
                 this.x = x;
@@ -119,13 +116,15 @@
                 this.lastX = x;
                 this.lastY = y;
                 this.angle = random(0, Math.PI * 2);
-                this.speed = random(1, 15);
-                this.friction = 0.95;
+                // MODIFICATION: Reduced particle speed
+                this.speed = random(1, 8); 
+                this.friction = 0.95; // This slows the particle over time
                 this.gravity = 1;
                 this.hue = random(hue - 20, hue + 20);
                 this.brightness = random(50, 80);
                 this.alpha = 1;
-                this.decay = random(0.008, 0.015);
+                // MODIFICATION: Increased decay rate to fade faster
+                this.decay = random(0.015, 0.025); 
                 this.lineWidth = random(1, 3);
             }
 
@@ -150,6 +149,7 @@
         }
 
         function createParticles(x, y, hue) {
+            // Particle count remains high for "size"
             let particleCount = 50;
             while (particleCount--) {
                 particles.push(new Particle(x, y, hue));
@@ -186,12 +186,10 @@
         function launchFirework(e) {
             e.preventDefault();
 
-            // --- ADDED: Start song on first click ---
             if (!hasUserInteracted) {
                 backgroundSong.play();
                 hasUserInteracted = true;
             }
-            // ----------------------------------------
             
             let targetX = e.clientX || e.touches[0].clientX;
             let targetY = e.clientY || e.touches[0].clientY;
