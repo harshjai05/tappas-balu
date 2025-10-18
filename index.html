@@ -26,11 +26,9 @@
         const canvas = document.getElementById('fireworksCanvas');
         const ctx = canvas.getContext('2d');
 
-        // Firework burst sound
         const explosionSound = new Audio('boom.mp3');
         explosionSound.preload = 'auto';
 
-        // Background music
         const backgroundSong = new Audio('song.mp3');
         backgroundSong.loop = true; 
         backgroundSong.preload = 'auto';
@@ -116,15 +114,16 @@
                 this.lastX = x;
                 this.lastY = y;
                 this.angle = random(0, Math.PI * 2);
-                // MODIFICATION: Reduced particle speed
-                this.speed = random(1, 8); 
-                this.friction = 0.95; // This slows the particle over time
+                // MODIFICATION: Made particle speed even slower
+                this.speed = random(1, 5); 
+                this.friction = 0.95;
                 this.gravity = 1;
                 this.hue = random(hue - 20, hue + 20);
-                this.brightness = random(50, 80);
+                // MODIFICATION: Increased brightness
+                this.brightness = random(70, 90); 
                 this.alpha = 1;
-                // MODIFICATION: Increased decay rate to fade faster
-                this.decay = random(0.015, 0.025); 
+                // Kept the slow decay rate
+                this.decay = random(0.008, 0.015); 
                 this.lineWidth = random(1, 3);
             }
 
@@ -149,7 +148,6 @@
         }
 
         function createParticles(x, y, hue) {
-            // Particle count remains high for "size"
             let particleCount = 50;
             while (particleCount--) {
                 particles.push(new Particle(x, y, hue));
