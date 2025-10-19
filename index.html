@@ -8,211 +8,489 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#000000"/>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
     <style>
         body {
             margin: 0;
             overflow: hidden;
+            background-color: #000;
+        }
+
+        #fireworksContainer {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-image: url('wallpaper.jpg');
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
         }
+
         canvas {
             display: block;
             background: transparent;
         }
+
+        .intro-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: #1a1a2e;
+            color: #ffffff;
+            font-family: 'Press Start 2P', cursive;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .intro-screen h1 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            animation: fadeIn 1.5s ease-in-out;
+            color: #f7b8c8;
+            text-shadow: 3px 3px 0px #9e4263;
+        }
+        
+        .intro-screen p {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 2.5rem;
+            animation: fadeIn 2s ease-in-out;
+            max-width: 600px;
+        }
+
+        .intro-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1.5rem;
+            animation: fadeIn 1s ease-in-out;
+            image-rendering: pixelated;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 1.5rem;
+            animation: fadeIn 2.5s ease-in-out;
+        }
+
+        .intro-button {
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            font-family: 'Press Start 2P', cursive;
+            border: 4px solid #fff;
+            background-color: #1a1a2e;
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 6px 6px 0px #000;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .intro-button:hover {
+            background-color: #2c2c54;
+        }
+
+        .intro-button:active {
+            transform: translate(3px, 3px);
+            box-shadow: 3px 3px 0px #000;
+        }
+        
+        .animated-button {
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        #laptop-message, #intro-2, #fullscreen-prompt, #fullscreen-check {
+            display: none;
+        }
+
+        .pixel-heart-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .pixel-heart {
+            position: absolute;
+            width: 24px;
+            height: 21px;
+            animation: popIn 2s infinite ease-out;
+            opacity: 0;
+        }
+
+        .pixel-animal {
+            position: absolute;
+            width: 64px;
+            height: 64px;
+            image-rendering: pixelated;
+            opacity: 0.7;
+        }
+        
+        #tap-message {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1rem;
+            text-shadow: 2px 2px 0 #000;
+            pointer-events: none;
+            opacity: 1;
+            /* MODIFICATION: Removed transition for reliability */
+            animation: pulse-text 2s infinite ease-in-out;
+        }
+
+        @keyframes popIn {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 0.6; }
+            80% { opacity: 0; transform: scale(1.2); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes pulse-text {
+             0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
     </style>
 </head>
 <body>
-    <canvas id="fireworksCanvas"></canvas>
+    <!-- Introductory Screens -->
+    <div id="intro-1" class="intro-screen">
+        <div class="pixel-heart-container"></div>
+        <div class="pixel-animal" style="top: 15%; left: 15%;">
+            <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="#C0C0C0" d="M5 1h1v1H5zM10 1h1v1h-1zM4 2h1v1H4zM6 2h1v1H6zM9 2h1v1H9zM11 2h1v1h-1zM4 3h2v1H4zM10 3h2v1h-2zM4 4h8v1H4zM4 5h8v1H4zM5 6h6v1H5zM6 7h4v1H6zM7 8h2v1H7z"/><path fill="#000000" d="M6 5h1v1H6zM9 5h1v1H9z"/><path fill="#FFB6C1" d="M7 6h2v1H7z"/></svg>
+        </div>
+        <h1>Hi Nigga &lt;3 </h1>
+        <p>Please tell me you're on a laptop</p>
+        <div class="button-container">
+            <button id="yes-laptop" class="intro-button animated-button">Yes</button>
+            <button id="no-laptop" class="intro-button">No</button>
+        </div>
+    </div>
+
+    <div id="intro-2" class="intro-screen">
+        <div class="pixel-heart-container"></div>
+        <div class="pixel-animal" style="bottom: 10%; right: 10%;">
+            <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="#D2B48C" d="M4 4h8v1H4zM3 5h10v1H3zM3 6h10v1H3zM3 7h10v1H3zM4 8h8v1H4zM5 9h6v1H5z"/><path fill="#FFFFFF" d="M5 6h2v1H5zM9 6h2v1H9z"/><path fill="#000000" d="M6 6h1v1H6zM10 6h1v1h-1z"/><path fill="#FFB6C1" d="M7 8h2v1H7z"/><path fill="#FFFFFF" d="M3 3h1v1H3zM12 3h1v1h-1z"/></svg>
+        </div>
+         <svg class="intro-icon" width="80" height="80" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#f7b8c8" d="M4 3h16v13H4V3zm1 1v11h14V4H5z M2 17h20v2H2v-2z M11 7h2v1h-2V7zm-2 2h6v1H9V9zm-1 2h8v1H8v-1z"/></svg>
+        <h1>You sure?</h1>
+        <p>I've optimised only for the lap and might get messed up otherwise</p>
+        <div class="button-container">
+            <button id="yes-sure" class="intro-button animated-button">I'm ready!</button>
+            <button id="no-sure" class="intro-button">Let me switch</button>
+        </div>
+    </div>
+    
+    <div id="fullscreen-prompt" class="intro-screen">
+        <div class="pixel-heart-container"></div>
+        <svg class="intro-icon" width="80" height="80" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#f7b8c8" d="M3 3h7v2H5v5H3V3zm11 0h7v7h-2V5h-5V3zM3 14h2v5h5v2H3v-7zm18 0v7h-7v-2h5v-5h2z"/></svg>
+        <h1>Final Pitstop</h1>
+        <p>Go Fullscreen Please</p>
+        <div class="button-container">
+            <button id="done-fullscreen" class="intro-button">Done!</button>
+        </div>
+    </div>
+    
+    <div id="fullscreen-check" class="intro-screen">
+        <div class="pixel-heart-container"></div>
+        <h1>Done? Ready?</h1>
+        <p>A surprise is waiting for you...(avlo periya surprise laam illa, just something little)</p>
+        <div class="button-container">
+            <button id="yes-fullscreen" class="intro-button">SHOW MEEEE!</button>
+        </div>
+    </div>
+
+    <div id="laptop-message" class="intro-screen">
+        <div class="pixel-heart-container"></div>
+        <h1>Game Over!</h1>
+        <p>Please find a laptop to start your adventure!</p>
+    </div>
+
+    <!-- Main Fireworks App -->
+    <div id="fireworksContainer">
+        <canvas id="fireworksCanvas"></canvas>
+        <div id="tap-message">Tap anywhere to begin &lt;3</div>
+    </div>
 
     <script>
-        const canvas = document.getElementById('fireworksCanvas');
-        const ctx = canvas.getContext('2d');
-
-        const explosionSound = new Audio('boom.mp3');
-        explosionSound.preload = 'auto';
-
-        const backgroundSong = new Audio('song.mp3');
-        backgroundSong.loop = true; 
-        backgroundSong.preload = 'auto';
-        
-        let fireworks = [];
-        let particles = [];
-        let hue = 120;
-        
-        let hasUserInteracted = false;
-
-        function setCanvasSize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
+        // --- INTRO LOGIC ---
+        const intro1 = document.getElementById('intro-1');
+        const intro2 = document.getElementById('intro-2');
+        const fullscreenPrompt = document.getElementById('fullscreen-prompt');
+        const fullscreenCheck = document.getElementById('fullscreen-check');
+        const laptopMessage = document.getElementById('laptop-message');
+        const fireworksContainer = document.getElementById('fireworksContainer');
+        const pixelHeartContainers = document.querySelectorAll('.pixel-heart-container');
 
         function random(min, max) {
             return Math.random() * (max - min) + min;
         }
 
-        function calculateDistance(ax, ay, bx, by) {
-            const xDistance = ax - bx;
-            const yDistance = ay - by;
-            return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
-        }
-
-        class Firework {
-            constructor(startX, startY, targetX, targetY) {
-                this.x = startX;
-                this.y = startY;
-                this.lastX = startX;
-                this.lastY = startY;
-                this.startX = startX;
-                this.startY = startY;
-                this.targetX = targetX;
-                this.targetY = targetY;
-                this.distanceToTarget = calculateDistance(startX, startY, targetX, targetY);
-                this.distanceTraveled = 0;
-                this.angle = Math.atan2(targetY - startY, targetX - startX);
-                this.speed = 2;
-                this.acceleration = 1.05;
-                this.brightness = random(50, 70);
-            }
-
-            update() {
-                this.lastX = this.x;
-                this.lastY = this.y;
-                this.speed *= this.acceleration;
-                const vx = Math.cos(this.angle) * this.speed;
-                const vy = Math.sin(this.angle) * this.speed;
-                this.distanceTraveled = calculateDistance(this.startX, this.startY, this.x + vx, this.y + vy);
-                if (this.distanceTraveled >= this.distanceToTarget) {
-                    createParticles(this.targetX, this.targetY, hue);
-                    explosionSound.currentTime = 0;
-                    explosionSound.play();
-                    return true;
-                } else {
-                    this.x += vx;
-                    this.y += vy;
-                    return false;
+        function createPixelHearts() {
+            pixelHeartContainers.forEach(container => {
+                for(let i = 0; i < 20; i++) {
+                    const heart = document.createElement('div');
+                    heart.classList.add('pixel-heart');
+                    heart.innerHTML = `<svg viewBox="0 0 8 7" xmlns="http://www.w3.org/2000/svg" style="image-rendering: pixelated;"><path fill="#ff69b4" d="M1 0h1v1H1V0zm5 0h1v1H6V0zM0 1h1v1H0V1zm2 0h1v1H2V1zm3 0h1v1H5V1zm2 0h1v1H7V1zM0 2h1v1H0V2zm6 0h1v1H6V2zm1 0h1v1H7V2zM1 3h5v1H1V3zm0 1h5v1H1V4zM2 5h3v1H2V5zM3 6h1v1H3V6z"/></svg>`;
+                    heart.style.left = `${Math.random() * 100}vw`;
+                    heart.style.top = `${Math.random() * 100}vh`;
+                    heart.style.animationDelay = `${random(0, 2)}s`;
+                    container.appendChild(heart);
                 }
-            }
-
-            draw() {
-                ctx.beginPath();
-                ctx.moveTo(this.lastX, this.lastY);
-                ctx.lineTo(this.x, this.y);
-                ctx.strokeStyle = `hsl(${hue}, 100%, ${this.brightness}%)`;
-                ctx.lineWidth = 2;
-                ctx.stroke();
-            }
-        }
-
-        // --- PARTICLE MODIFICATIONS HERE ---
-        class Particle {
-            constructor(x, y, hue) {
-                this.x = x;
-                this.y = y;
-                this.lastX = x;
-                this.lastY = y;
-                this.angle = random(0, Math.PI * 2);
-                // MODIFICATION: Much slower particle speed
-                this.speed = random(1, 4); 
-                this.friction = 0.95;
-                this.gravity = 1;
-                this.hue = random(hue - 20, hue + 20);
-                this.brightness = random(60, 90); 
-                this.alpha = 1;
-                // Kept slow decay to make them last longer
-                this.decay = random(0.005, 0.012); 
-                this.lineWidth = random(2, 4); 
-            }
-
-            update() {
-                this.lastX = this.x;
-                this.lastY = this.y;
-                this.speed *= this.friction;
-                this.x += Math.cos(this.angle) * this.speed;
-                this.y += Math.sin(this.angle) * this.speed + this.gravity;
-                this.alpha -= this.decay;
-                return this.alpha <= this.decay;
-            }
-
-            draw() {
-                ctx.beginPath();
-                ctx.moveTo(this.lastX, this.lastY);
-                ctx.lineTo(this.x, this.y);
-                ctx.strokeStyle = `hsla(${this.hue}, 100%, ${this.brightness}%, ${this.alpha})`;
-                ctx.lineWidth = this.lineWidth;
-                ctx.stroke();
-            }
-        }
-
-        function createParticles(x, y, hue) {
-            let particleCount = 60; 
-            while (particleCount--) {
-                particles.push(new Particle(x, y, hue));
-            }
-        }
-
-        function loop() {
-            requestAnimationFrame(loop);
-            hue += 0.5;
-            ctx.globalCompositeOperation = 'destination-out';
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.globalCompositeOperation = 'lighter';
-            let i = fireworks.length;
-            while (i--) {
-                fireworks[i].draw();
-                if (fireworks[i].update()) {
-                    fireworks[i] = fireworks[fireworks.length - 1];
-                    fireworks.pop();
-                }
-            }
-            let j = particles.length;
-            while (j--) {
-                particles[j].draw();
-                if (particles[j].update()) {
-                    particles[j] = particles[particles.length - 1];
-                    particles.pop();
-                }
-            }
-        }
-
-        function launchFirework(e) {
-            e.preventDefault();
-            if (!hasUserInteracted) {
-                backgroundSong.play();
-                hasUserInteracted = true;
-            }
-            let targetX = e.clientX || e.touches[0].clientX;
-            let targetY = e.clientY || e.touches[0].clientY;
-            const maxBurstY = canvas.height * 0.5;
-            if (targetY > maxBurstY) {
-                targetY = random(canvas.height * 0.1, maxBurstY);
-            }
-            const launchY = random(canvas.height * 0.5, canvas.height * 0.7);
-            const launchX = random(canvas.width * 0.1, canvas.width * 0.9); 
-            if (targetY < launchY) {
-                fireworks.push(new Firework(launchX, launchY, targetX, targetY));
-            }
-        }
-        
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js').then(registration => {
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                }, err => {
-                    console.log('ServiceWorker registration failed: ', err);
-                });
             });
         }
-
-        window.addEventListener('resize', setCanvasSize);
-        canvas.addEventListener('mousedown', launchFirework);
-        canvas.addEventListener('touchstart', launchFirework);
         
-        setCanvasSize();
-        loop();
+        createPixelHearts();
 
+        document.getElementById('yes-laptop').addEventListener('click', () => {
+            intro1.style.display = 'none';
+            intro2.style.display = 'flex';
+        });
+
+        document.getElementById('no-laptop').addEventListener('click', () => {
+            intro1.style.display = 'none';
+            laptopMessage.style.display = 'flex';
+        });
+        
+        document.getElementById('yes-sure').addEventListener('click', () => {
+            intro2.style.display = 'none';
+            fullscreenPrompt.style.display = 'flex';
+        });
+
+        document.getElementById('no-sure').addEventListener('click', () => {
+            intro2.style.display = 'none';
+            intro1.style.display = 'flex';
+        });
+        
+        document.getElementById('done-fullscreen').addEventListener('click', () => {
+            fullscreenPrompt.style.display = 'none';
+            fullscreenCheck.style.display = 'flex';
+        });
+
+        document.getElementById('yes-fullscreen').addEventListener('click', () => {
+            fullscreenCheck.style.display = 'none';
+            fireworksContainer.style.display = 'block';
+            startFireworksApp();
+        });
+
+        // --- FIREWORKS APP LOGIC (WRAPPED IN A FUNCTION) ---
+        function startFireworksApp() {
+            const canvas = document.getElementById('fireworksCanvas');
+            const ctx = canvas.getContext('2d');
+
+            const explosionSound = new Audio('boom.mp3');
+            explosionSound.preload = 'auto';
+
+            const backgroundSong = new Audio('song.mp3');
+            backgroundSong.loop = true; 
+            backgroundSong.preload = 'auto';
+            
+            let fireworks = [];
+            let particles = [];
+            let hue = 120;
+            
+            let hasUserInteracted = false;
+
+            function setCanvasSize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            
+            function calculateDistance(ax, ay, bx, by) {
+                const xDistance = ax - bx;
+                const yDistance = ay - by;
+                return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
+            }
+
+            class Firework {
+                constructor(startX, startY, targetX, targetY) {
+                    this.x = startX;
+                    this.y = startY;
+                    this.lastX = startX;
+                    this.lastY = startY;
+                    this.startX = startX;
+                    this.startY = startY;
+                    this.targetX = targetX;
+                    this.targetY = targetY;
+                    this.distanceToTarget = calculateDistance(startX, startY, targetX, targetY);
+                    this.distanceTraveled = 0;
+                    this.angle = Math.atan2(targetY - startY, targetX - startX);
+                    this.speed = 2;
+                    this.acceleration = 1.05;
+                    this.brightness = random(50, 70);
+                }
+
+                update() {
+                    this.lastX = this.x;
+                    this.lastY = this.y;
+                    this.speed *= this.acceleration;
+                    const vx = Math.cos(this.angle) * this.speed;
+                    const vy = Math.sin(this.angle) * this.speed;
+                    this.distanceTraveled = calculateDistance(this.startX, this.startY, this.x + vx, this.y + vy);
+                    if (this.distanceTraveled >= this.distanceToTarget) {
+                        createParticles(this.targetX, this.targetY, hue);
+                        explosionSound.currentTime = 0;
+                        explosionSound.play().catch(error => console.warn("Could not play explosion sound:", error));
+                        return true;
+                    } else {
+                        this.x += vx;
+                        this.y += vy;
+                        return false;
+                    }
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.moveTo(this.lastX, this.lastY);
+                    ctx.lineTo(this.x, this.y);
+                    ctx.strokeStyle = `hsl(${hue}, 100%, ${this.brightness}%)`;
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                }
+            }
+            
+            class Particle {
+                constructor(x, y, hue) {
+                    this.x = x;
+                    this.y = y;
+                    this.lastX = x;
+                    this.lastY = y;
+                    this.angle = random(0, Math.PI * 2);
+                    this.speed = random(1, 15); 
+                    this.friction = 0.95;
+                    this.gravity = 1;
+                    this.hue = random(hue - 20, hue + 20);
+                    this.brightness = random(70, 95); 
+                    this.alpha = 1;
+                    this.decay = random(0.005, 0.012); 
+                    this.lineWidth = random(2, 5); 
+                }
+
+                update() {
+                    this.lastX = this.x;
+                    this.lastY = this.y;
+                    this.speed *= this.friction;
+                    this.x += Math.cos(this.angle) * this.speed;
+                    this.y += Math.sin(this.angle) * this.speed + this.gravity;
+                    this.alpha -= this.decay;
+                    return this.alpha <= this.decay;
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.moveTo(this.lastX, this.lastY);
+                    ctx.lineTo(this.x, this.y);
+                    ctx.strokeStyle = `hsla(${this.hue}, 100%, ${this.brightness}%, ${this.alpha})`;
+                    ctx.lineWidth = this.lineWidth;
+                    ctx.stroke();
+                }
+            }
+
+            function createParticles(x, y, hue) {
+                let particleCount = 60; 
+                while (particleCount--) {
+                    particles.push(new Particle(x, y, hue));
+                }
+            }
+
+            function loop() {
+                requestAnimationFrame(loop);
+                hue += 0.5;
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.globalCompositeOperation = 'lighter';
+                let i = fireworks.length;
+                while (i--) {
+                    fireworks[i].draw();
+                    if (fireworks[i].update()) {
+                        fireworks[i] = fireworks[fireworks.length - 1];
+                        fireworks.pop();
+                    }
+                }
+                let j = particles.length;
+                while (j--) {
+                    particles[j].draw();
+                    if (particles[j].update()) {
+                        particles[j] = particles[particles.length - 1];
+                        particles.pop();
+                    }
+                }
+            }
+
+            function launchFirework(e) {
+                e.preventDefault();
+                if (!hasUserInteracted) {
+                    backgroundSong.play().catch(error => console.warn("Could not play background music:", error));
+                    
+                    // --- MODIFICATION FOR RELIABLE REMOVAL ---
+                    const tapMessage = document.getElementById('tap-message');
+                    if (tapMessage) {
+                        tapMessage.style.display = 'none';
+                    }
+                    // ------------------------------------------
+
+                    hasUserInteracted = true;
+                }
+                let targetX = e.clientX || e.touches[0].clientX;
+                let targetY = e.clientY || e.touches[0].clientY;
+                const maxBurstY = canvas.height * 0.5;
+                if (targetY > maxBurstY) {
+                    targetY = random(canvas.height * 0.1, maxBurstY);
+                }
+                const launchY = random(canvas.height * 0.5, canvas.height * 0.7);
+                const launchX = random(canvas.width * 0.1, canvas.width * 0.9); 
+                if (targetY < launchY) {
+                    fireworks.push(new Firework(launchX, launchY, targetX, targetY));
+                }
+            }
+            
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/service-worker.js').then(registration => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    }, err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+                });
+            }
+
+            window.addEventListener('resize', setCanvasSize);
+            canvas.addEventListener('mousedown', launchFirework);
+            canvas.addEventListener('touchstart', launchFirework);
+            
+            setCanvasSize();
+            loop();
+        }
     </script>
 </body>
 </html>
