@@ -153,7 +153,6 @@
             text-shadow: 2px 2px 0 #000;
             pointer-events: none;
             opacity: 1;
-            /* MODIFICATION: Removed transition for reliability */
             animation: pulse-text 2s infinite ease-in-out;
         }
 
@@ -188,7 +187,7 @@
         <div class="pixel-animal" style="top: 15%; left: 15%;">
             <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="#C0C0C0" d="M5 1h1v1H5zM10 1h1v1h-1zM4 2h1v1H4zM6 2h1v1H6zM9 2h1v1H9zM11 2h1v1h-1zM4 3h2v1H4zM10 3h2v1h-2zM4 4h8v1H4zM4 5h8v1H4zM5 6h6v1H5zM6 7h4v1H6zM7 8h2v1H7z"/><path fill="#000000" d="M6 5h1v1H6zM9 5h1v1H9z"/><path fill="#FFB6C1" d="M7 6h2v1H7z"/></svg>
         </div>
-        <h1>Hi Nigga &lt;3 </h1>
+        <h1>Hi Nigga &lt;3</h1>
         <p>Please tell me you're on a laptop</p>
         <div class="button-container">
             <button id="yes-laptop" class="intro-button animated-button">Yes</button>
@@ -213,7 +212,7 @@
     <div id="fullscreen-prompt" class="intro-screen">
         <div class="pixel-heart-container"></div>
         <svg class="intro-icon" width="80" height="80" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#f7b8c8" d="M3 3h7v2H5v5H3V3zm11 0h7v7h-2V5h-5V3zM3 14h2v5h5v2H3v-7zm18 0v7h-7v-2h5v-5h2z"/></svg>
-        <h1>Final Pitstop</h1>
+        <h1>Final Level!</h1>
         <p>Go Fullscreen Please</p>
         <div class="button-container">
             <button id="done-fullscreen" class="intro-button">Done!</button>
@@ -223,9 +222,9 @@
     <div id="fullscreen-check" class="intro-screen">
         <div class="pixel-heart-container"></div>
         <h1>Done? Ready?</h1>
-        <p>A surprise is waiting for you...(avlo periya surprise laam illa, just something little)</p>
+        <p>A surprise is waiting for you...(avlo perusa onnum illa, just something little)</p>
         <div class="button-container">
-            <button id="yes-fullscreen" class="intro-button">SHOW MEEEE!</button>
+            <button id="yes-fullscreen" class="intro-button">Start Game!</button>
         </div>
     </div>
 
@@ -302,17 +301,20 @@
             startFireworksApp();
         });
 
-        // --- FIREWORKS APP LOGIC (WRAPPED IN A FUNCTION) ---
+        // --- FIREWORKS APP LOGIC ---
         function startFireworksApp() {
             const canvas = document.getElementById('fireworksCanvas');
             const ctx = canvas.getContext('2d');
 
             const explosionSound = new Audio('boom.mp3');
             explosionSound.preload = 'auto';
-
-            const backgroundSong = new Audio('song.mp3');
-            backgroundSong.loop = true; 
-            backgroundSong.preload = 'auto';
+            
+            const ambientSound = new Audio('ambiance.mp3');
+            ambientSound.loop = true;
+            ambientSound.preload = 'auto';
+            // --- MODIFICATION: VOLUME REDUCED ---
+            ambientSound.volume = 0.24; 
+            // ------------------------------------
             
             let fireworks = [];
             let particles = [];
@@ -450,14 +452,12 @@
             function launchFirework(e) {
                 e.preventDefault();
                 if (!hasUserInteracted) {
-                    backgroundSong.play().catch(error => console.warn("Could not play background music:", error));
+                    ambientSound.play().catch(error => console.warn("Could not play ambient sound:", error));
                     
-                    // --- MODIFICATION FOR RELIABLE REMOVAL ---
                     const tapMessage = document.getElementById('tap-message');
                     if (tapMessage) {
                         tapMessage.style.display = 'none';
                     }
-                    // ------------------------------------------
 
                     hasUserInteracted = true;
                 }
