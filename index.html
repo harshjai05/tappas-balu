@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fireworks Generator (Optimized + Sound)</title>
+    <title>Miss me</title>
+    
+    <!-- MODIFICATION START: App manifest and theme -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#000000"/>
+    <!-- MODIFICATION END -->
+
     <style>
         body {
             margin: 0;
@@ -60,14 +66,12 @@
                 this.y = startY;
                 this.lastX = startX;
                 this.lastY = startY;
-
                 this.startX = startX;
                 this.startY = startY;
                 this.targetX = targetX;
                 this.targetY = targetY;
                 this.distanceToTarget = calculateDistance(startX, startY, targetX, targetY);
                 this.distanceTraveled = 0;
-                
                 this.angle = Math.atan2(targetY - startY, targetX - startX);
                 this.speed = 2;
                 this.acceleration = 1.05;
@@ -81,13 +85,10 @@
                 const vx = Math.cos(this.angle) * this.speed;
                 const vy = Math.sin(this.angle) * this.speed;
                 this.distanceTraveled = calculateDistance(this.startX, this.startY, this.x + vx, this.y + vy);
-
                 if (this.distanceTraveled >= this.distanceToTarget) {
                     createParticles(this.targetX, this.targetY, hue);
-                    
                     explosionSound.currentTime = 0;
                     explosionSound.play();
-
                     return true;
                 } else {
                     this.x += vx;
@@ -106,7 +107,6 @@
             }
         }
 
-        // --- PARTICLE MODIFICATIONS HERE ---
         class Particle {
             constructor(x, y, hue) {
                 this.x = x;
@@ -114,17 +114,13 @@
                 this.lastX = x;
                 this.lastY = y;
                 this.angle = random(0, Math.PI * 2);
-                // MODIFICATION: Reverted to fast speed for a BIG explosion
                 this.speed = random(1, 15); 
                 this.friction = 0.95;
                 this.gravity = 1;
                 this.hue = random(hue - 20, hue + 20);
-                // MODIFICATION: Reverted to vibrant brightness
                 this.brightness = random(50, 80); 
                 this.alpha = 1;
-                // Kept the slow decay rate for a "slower" feel
                 this.decay = random(0.008, 0.015); 
-                // MODIFICATION: Increased line width for more brightness
                 this.lineWidth = random(2, 4); 
             }
 
@@ -149,7 +145,6 @@
         }
 
         function createParticles(x, y, hue) {
-            // MODIFICATION: Increased particle count for density
             let particleCount = 60; 
             while (particleCount--) {
                 particles.push(new Particle(x, y, hue));
@@ -163,7 +158,6 @@
             ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.globalCompositeOperation = 'lighter';
-
             let i = fireworks.length;
             while (i--) {
                 fireworks[i].draw();
@@ -172,7 +166,6 @@
                     fireworks.pop();
                 }
             }
-
             let j = particles.length;
             while (j--) {
                 particles[j].draw();
@@ -185,28 +178,34 @@
 
         function launchFirework(e) {
             e.preventDefault();
-
             if (!hasUserInteracted) {
                 backgroundSong.play();
                 hasUserInteracted = true;
             }
-            
             let targetX = e.clientX || e.touches[0].clientX;
             let targetY = e.clientY || e.touches[0].clientY;
-            
             const maxBurstY = canvas.height * 0.5;
-
             if (targetY > maxBurstY) {
                 targetY = random(canvas.height * 0.1, maxBurstY);
             }
-            
             const launchY = random(canvas.height * 0.5, canvas.height * 0.7);
             const launchX = random(canvas.width * 0.1, canvas.width * 0.9); 
-
             if (targetY < launchY) {
                 fireworks.push(new Firework(launchX, launchY, targetX, targetY));
             }
         }
+        
+        // MODIFICATION START: Register the service worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js').then(registration => {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+        // MODIFICATION END
 
         window.addEventListener('resize', setCanvasSize);
         canvas.addEventListener('mousedown', launchFirework);
