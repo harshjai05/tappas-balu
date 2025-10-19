@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Miss me</title>
+    <title>Fireworks Generator</title>
     
-    <!-- MODIFICATION START: App manifest and theme -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#000000"/>
-    <!-- MODIFICATION END -->
 
     <style>
         body {
@@ -107,6 +105,7 @@
             }
         }
 
+        // --- PARTICLE MODIFICATIONS HERE ---
         class Particle {
             constructor(x, y, hue) {
                 this.x = x;
@@ -114,13 +113,16 @@
                 this.lastX = x;
                 this.lastY = y;
                 this.angle = random(0, Math.PI * 2);
-                this.speed = random(1, 15); 
+                // MODIFICATION: Slower particle speed
+                this.speed = random(1, 8); 
                 this.friction = 0.95;
                 this.gravity = 1;
                 this.hue = random(hue - 20, hue + 20);
-                this.brightness = random(50, 80); 
+                // MODIFICATION: Brighter
+                this.brightness = random(60, 90); 
                 this.alpha = 1;
-                this.decay = random(0.008, 0.015); 
+                // MODIFICATION: Lasts longer (slower decay)
+                this.decay = random(0.005, 0.012); 
                 this.lineWidth = random(2, 4); 
             }
 
@@ -195,7 +197,6 @@
             }
         }
         
-        // MODIFICATION START: Register the service worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/service-worker.js').then(registration => {
@@ -205,7 +206,6 @@
                 });
             });
         }
-        // MODIFICATION END
 
         window.addEventListener('resize', setCanvasSize);
         canvas.addEventListener('mousedown', launchFirework);
