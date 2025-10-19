@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Miss me.</title>
+    <title>Miss Me</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#000000"/>
@@ -113,15 +113,14 @@
                 this.lastX = x;
                 this.lastY = y;
                 this.angle = random(0, Math.PI * 2);
-                // MODIFICATION: Slower particle speed
-                this.speed = random(1, 8); 
+                // MODIFICATION: Much slower particle speed
+                this.speed = random(1, 4); 
                 this.friction = 0.95;
                 this.gravity = 1;
                 this.hue = random(hue - 20, hue + 20);
-                // MODIFICATION: Brighter
                 this.brightness = random(60, 90); 
                 this.alpha = 1;
-                // MODIFICATION: Lasts longer (slower decay)
+                // Kept slow decay to make them last longer
                 this.decay = random(0.005, 0.012); 
                 this.lineWidth = random(2, 4); 
             }
